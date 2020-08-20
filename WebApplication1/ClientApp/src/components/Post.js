@@ -17,21 +17,13 @@ export class Post extends Component {
 
     handleInput(p) {
 
-        var PL = {
-            a: 1,
-            b: 2
-        };
-
-        var data = new FormData();
-        data.append("PoLos", JSON.stringify(PL));
-
         fetch('api/SampleData/test',
             {
                 method: "POST",
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ a: p })
             }).
-            then(response => response.text())
+            then(response => response.json())
             .then(data => {
                 this.setState({ values: data, loading: false });
             });
@@ -40,7 +32,7 @@ export class Post extends Component {
     }
 
     change(event) {
-        this.setState({ count: this.state.count + 1 });
+      
         //this.setState({ text: event.target.value })
 
         this.handleInput(event.target.value);
@@ -52,7 +44,15 @@ export class Post extends Component {
                 <tbody>
                     {values.map(forecast =>
                         
-                            <td>{forecast.a}</td>
+                        <tr>
+                            <td>
+                                {forecast.a}
+                            </td>
+                            <td>
+                                <input type="button" value="See Weather" onClick="" />
+                            </td>
+
+                        </tr>
                           
                     )}
                 </tbody>
@@ -62,20 +62,17 @@ export class Post extends Component {
 
     render() {
 
-        /*let contents = this.state.loading
+        let contents = this.state.loading
             ? <p><em>Loading...</em></p>
-            : Post.listTable(this.state.values);*/
+            : Post.listTable(this.state.values);
 
         return (
             <form>
-                <h1>{this.state.text}</h1>
-                <h2>{this.state.apa}</h2>
-                <h3>{this.state.count}</h3>
                
                 
                 <input type='text' value={this.state.text} onChange={this.change} />
                 <br />
-                {Post.listTable(this.state.values)}
+                {contents}
             </form>
         );
     }

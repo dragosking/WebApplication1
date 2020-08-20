@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using WebApplication1.API;
+using WebApplication1.Model;
 
 namespace WebApplication1.Controllers
 {
@@ -53,7 +55,7 @@ namespace WebApplication1.Controllers
             {
                 return null;
             }
-            return Enumerable.Range(1, temp.Length-1).Select(index => new PL
+            return Enumerable.Range(0, temp.Length).Select(index => new PL
             {
                 a = temp[index]
             }) ;
@@ -65,18 +67,31 @@ namespace WebApplication1.Controllers
             string[] outputs=new string[20];
             int j = 0;
 
-            if (input == "")
+            ParseJsonPlace parse = new ParseJsonPlace();
+            
+            var loc=parse.ReadUrlAsync("https://www.smhi.se/wpt-a/backend_solr/autocomplete/search/", input);
+
+            if (input == "" || input == null)
             {
                 return null;
             }
 
-            foreach( var item in Summaries)
+            /*foreach( var item in Summaries)
             {
                 if (item.Contains(input)){
                  
                     outputs[j] = item;
                     j++;
                 }
+            }*/
+
+            foreach (var item in loc)
+            {
+        
+
+                    outputs[j] = item.place;
+                    j++;
+                
             }
 
             outputs = outputs.Where(c => c != null).ToArray();

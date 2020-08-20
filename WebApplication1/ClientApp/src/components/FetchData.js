@@ -48,8 +48,11 @@ export class FetchData extends Component {
       <div>
         <h1>Weather forecast</h1>
         <p>This component demonstrates fetching data from the server.</p>
-        {contents}
-      </div>
+     
+
+            <h2>Hi: {this.state.forecasts.length}</h2>
+        </div>
+      
     );
   }
 }
