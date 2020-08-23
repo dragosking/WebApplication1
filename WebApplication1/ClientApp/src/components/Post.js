@@ -6,7 +6,7 @@ export class Post extends Component {
         super(props);
         this.state = {
             text: '',
-            apa: '',
+            apa: 'd',
             count: 0,
             values:[]
         };
@@ -31,6 +31,13 @@ export class Post extends Component {
         this.setState({ text: p })
     }
 
+    handleAddItem = (value) => {
+        this.setState({
+            apa: value,
+         
+        })
+    }
+
     change(event) {
       
         //this.setState({ text: event.target.value })
@@ -38,41 +45,36 @@ export class Post extends Component {
         this.handleInput(event.target.value);
     }
 
-    static listTable(values) {
-        return (
-            <table className='table table-striped'>
-                <tbody>
-                    {values.map(forecast =>
-                        
-                        <tr>
-                            <td>
-                                {forecast.a}
-                            </td>
-                            <td>
-                                <input type="button" value="See Weather" onClick="" />
-                            </td>
 
-                        </tr>
-                          
-                    )}
-                </tbody>
-            </table>
+    selectTag = (e) => {
+        this.setState(
+            {
+                apa: e.target.id,
+                values: []
+            }
         );
     }
 
+
     render() {
 
-        let contents = this.state.loading
-            ? <p><em>Loading...</em></p>
-            : Post.listTable(this.state.values);
+      
+
+        let tagList = this.state.values.map((Tag) => {
+            return (
+
+                <div id={Tag.a} class="tag" onClick={this.selectTag}>{Tag.a}</div>
+
+            );
+        });
 
         return (
             <form>
-               
-                
+
+                <h2>{this.state.apa}</h2>
                 <input type='text' value={this.state.text} onChange={this.change} />
                 <br />
-                {contents}
+                {tagList}
             </form>
         );
     }
