@@ -13,6 +13,7 @@ namespace WebApplication1.Controllers
     {
 
         private int count;
+        private IEnumerable<Location> location;
 
         public SampleDataController()
         {
@@ -39,7 +40,7 @@ namespace WebApplication1.Controllers
 
 
         [HttpPost("test")]
-        public IEnumerable<PL> test([FromBody]PL pl)
+        public IEnumerable<Location> test([FromBody]PL pl)
         {
             if (pl == null)
             {
@@ -49,9 +50,9 @@ namespace WebApplication1.Controllers
             }
 
             var rng = new Random();
-            string[] temp = searchLocation(pl.a);
+            return searchLocation(pl.a);
 
-            if (temp == null)
+            /*if (temp == null)
             {
                 return null;
             }
@@ -60,29 +61,56 @@ namespace WebApplication1.Controllers
                 a = temp[index]
             }) ;
 
-           //return temp;
+           //return temp;*/
         }
 
-        private string[] searchLocation(string input) { 
+        [HttpPost("select")]
+        public void select([FromBody] Location pl)
+        {
+            string deni = pl.place;
+        }
+
+        private Location getCoordinates(String place)
+        {
+           Location loc=null;
+           foreach(var item in location)
+            {
+                if (place.Equals(item.place))
+                {
+                    loc = item;
+                }
+            }
+
+            return loc;
+        }
+
+        private IEnumerable<Weather> searchCoordinates(Location loc)
+        {
+            ParseJson parse=new ParseJson();
+            string typ= loc.lon + "/lat" + loc.lat;
+            return parse.ParseUrl("https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/lon/", typ);
+        }
+
+        private IEnumerable<Location> searchLocation(string input) { 
             string[] outputs=new string[20];
             int j = 0;
 
             ParseJsonPlace parse = new ParseJsonPlace();
-            var loc=parse.ReadUrlAsync("https://www.smhi.se/wpt-a/backend_solr/autocomplete/search/", input);
+            location=parse.ReadUrlAsync("https://www.smhi.se/wpt-a/backend_solr/autocomplete/search/", input);
 
-            if (input == "" || input == null)
+            /*if (input == "" || input == null)
             {
                 return null;
             }
 
-            foreach (var item in loc)
+            foreach (var item in location)
             {
                 outputs[j] = item.place;
                 j++;    
-            }
+            }*/
 
-            outputs = outputs.Where(c => c != null).ToArray();
-            return outputs;
+            //outputs = outputs.Where(c => c != null).ToArray();
+            return location;
         }
 
         public class WeatherForecast
@@ -103,6 +131,8 @@ namespace WebApplication1.Controllers
         public class PL
         {
             public string a { get; set; }
+
+            public Coordinates coord{get;set;}
         }
 
     }

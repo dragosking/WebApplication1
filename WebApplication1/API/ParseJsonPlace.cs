@@ -20,9 +20,12 @@ namespace WebApplication1.API
             new MediaTypeWithQualityHeaderValue("application/json"));
 
             HttpResponseMessage responseMessage = client.GetAsync(urlParameter).Result;
+            
 
             if (responseMessage.IsSuccessStatusCode)
             {
+
+               
                 var data = responseMessage.Content.ReadAsAsync<IEnumerable<Location>>().Result;
 
                 return data;

@@ -31,11 +31,23 @@ export class Post extends Component {
         this.setState({ text: p })
     }
 
-    handleAddItem = (value) => {
+    selectInput(p) {
+
+        fetch('api/SampleData/select',
+            {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ place: p})
+            });
+
         this.setState({
-            apa: value,
-         
+            apa: p,
+            values: []
         })
+    }
+
+    handleAddItem = (value) => {
+        
     }
 
     change(event) {
@@ -47,12 +59,7 @@ export class Post extends Component {
 
 
     selectTag = (e) => {
-        this.setState(
-            {
-                apa: e.target.id,
-                values: []
-            }
-        );
+        this.selectInput(e.target.id);
     }
 
 
@@ -63,7 +70,7 @@ export class Post extends Component {
         let tagList = this.state.values.map((Tag) => {
             return (
 
-                <div id={Tag.a} class="tag" onClick={this.selectTag}>{Tag.a}</div>
+                <div id={Tag.place} class="tag" onClick={this.selectTag}>{Tag.place}</div>
 
             );
         });
