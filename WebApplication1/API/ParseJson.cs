@@ -28,9 +28,10 @@ namespace WebApplication1.API
 
 
                 var data = responseMessage.Content.ReadAsStringAsync().Result;
+          
                 var answer = JsonConvert.DeserializeObject<Rootobject>(data);
 
-                //return cleanData(answer);
+                return cleanData(answer);
                 return answer;
                 
 
@@ -46,20 +47,39 @@ namespace WebApplication1.API
 
         private Rootobject cleanData(Rootobject first)
         {
-            Rootobject after=new Rootobject();
-            after.approvedTime = first.approvedTime;
-            DateTime st = after.approvedTime;
-            for(int i=0; i < first.timeSeries.Length; i++)
+            Rootobject after;
+            Timesery[] seriesTemp=new Timesery[first.timeSeries.Length];
+            Parameter[] parasTemp=new Parameter[1];
+
+        
+            DateTime appTemp = first.approvedTime;
+            for (int i = 0; i < first.timeSeries.Length; i++)
             {
-                DateTime apa = first.timeSeries[i].validTime;
+                DateTime validTemp = first.timeSeries[i].validTime;
+
                 for(int j=0; j < first.timeSeries[i].parameters.Length; j++ )
                 {
                     if (first.timeSeries[i].parameters[j].name.Equals("t"))
                     {
-                        after.timeSeries[i].parameters[0].values = first.timeSeries[i].parameters[j].values;
+                        parasTemp[0] = first.timeSeries[i].parameters[j];
                     }
+
                 }
+
+                seriesTemp[i] = new Timesery
+                {
+                    validTime = validTemp,
+                    parameters = parasTemp
+                };
+         
             }
+
+
+            after = new Rootobject
+            {
+                approvedTime = appTemp,
+                timeSeries=seriesTemp
+            };
 
             return after;
 
