@@ -37,11 +37,15 @@ export class Post extends Component {
             {
                 method: "POST",
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ place: p})
+                body: JSON.stringify({
+                    place: p.place,
+                    lat: p.lat,
+                    lon: p.lon
+                })
             });
 
         this.setState({
-            apa: p,
+            apa: p.place,
             values: []
         })
     }
@@ -59,7 +63,7 @@ export class Post extends Component {
 
 
     selectTag = (e) => {
-        this.selectInput(e.target.id);
+        this.selectInput(this.state.values[e.target.id]);
     }
 
 
@@ -67,10 +71,10 @@ export class Post extends Component {
 
       
 
-        let tagList = this.state.values.map((Tag) => {
+        let tagList = this.state.values.map((Tag,index) => {
             return (
 
-                <div id={Tag.place} class="tag" onClick={this.selectTag}>{Tag.place}</div>
+                <div id={index} class="tag" onClick={this.selectTag}>{Tag.place}</div>
 
             );
         });

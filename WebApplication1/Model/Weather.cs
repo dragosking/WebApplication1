@@ -7,9 +7,9 @@ namespace WebApplication1.Model
 {
     public class Weather
     {
-        private string name{ get; set; }
-        private string[] parameters { get; set; }
-        private string validTime { get; set; }
+        private string approvedTime{ get; set; }
+        private string referenceTime { get; set; }
+    
 
 
 

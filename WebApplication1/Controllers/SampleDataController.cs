@@ -67,7 +67,7 @@ namespace WebApplication1.Controllers
         [HttpPost("select")]
         public void select([FromBody] Location pl)
         {
-            string deni = pl.place;
+            searchCoordinates(pl);
         }
 
         private Location getCoordinates(String place)
@@ -84,11 +84,18 @@ namespace WebApplication1.Controllers
             return loc;
         }
 
-        private IEnumerable<Weather> searchCoordinates(Location loc)
+        private void searchCoordinates(Location loc)
         {
             ParseJson parse=new ParseJson();
-            string typ= loc.lon + "/lat" + loc.lat;
-            return parse.ParseUrl("https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/lon/", typ);
+            loc = new Location
+            {
+                place="random",
+                lat= "60.383",
+                lon= "14.333"
+            };
+            string typ= loc.lon + "/lat/" + loc.lat+"/data.json";
+            Rootobject vader =parse.ParseUrl("https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/lon/", typ);
+            string denniS = "dsd";
         }
 
         private IEnumerable<Location> searchLocation(string input) { 
