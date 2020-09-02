@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using WebApplication1.API;
 using WebApplication1.Model;
+using static WebApplication1.Model.YRModel;
 
 namespace WebApplication1.Controllers
 {
@@ -21,47 +23,16 @@ namespace WebApplication1.Controllers
         }
 
 
-        private static string[] Summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
-
-        [HttpGet("[action]")]
-        public IEnumerable<WeatherForecast> WeatherForecasts()
-        {
-            var rng = new Random();
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                DateFormatted = DateTime.Now.AddDays(index).ToString("d"),
-                TemperatureC = rng.Next(-20, 55),
-                Summary = Summaries[rng.Next(Summaries.Length)]
-            });
-        }
-
 
         [HttpPost("test")]
         public IEnumerable<Location> test([FromBody]PL pl)
         {
-            if (pl == null)
-            {
-                count++;
-                String d = count.ToString();
+            if (pl == null )
+            { 
                 return null;
             }
 
-            var rng = new Random();
             return searchLocation(pl.a);
-
-            /*if (temp == null)
-            {
-                return null;
-            }
-            return Enumerable.Range(0, temp.Length).Select(index => new PL
-            {
-                a = temp[index]
-            }) ;
-
-           //return temp;*/
         }
 
         [HttpPost("select")]
@@ -87,53 +58,51 @@ namespace WebApplication1.Controllers
         private void searchCoordinates(Location loc)
         {
             ParseJson parse=new ParseJson();
-            loc = new Location
+            if (validCoordinates(loc))
             {
-                place="random",
-                lat= "60.383",
-                lon= "14.333"
-            };
-            string typ= loc.lon + "/lat/" + loc.lat+"/data.json";
-            Rootobject vader =parse.ParseUrl("https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/lon/", typ);
-            string denniS = "dsd";
+                Location locTemp=changeNoDecimals(loc);
+                string coordSMHI ="lon/"+ locTemp.lon + "/lat/" + locTemp.lat + "/data.json";
+                string coordYR = "compact?lat="+ locTemp.lat + "&lon=" + locTemp.lon;
+                //Rootobject vaderSHMI = parse.ParseUrlSMHI("https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/", coordSMHI);
+                RootobjectYR vader= parse.ParseUrlYRAsync("https://api.met.no/weatherapi/locationforecast/2.0/", coordYR);
+                string denniS = "dsd";
+            }
+        }
+
+        private Location changeNoDecimals(Location coordinates)
+        {
+            Decimal tempLon = Decimal.Parse(coordinates.lon, CultureInfo.InvariantCulture);
+            Decimal nyLon=Math.Round(tempLon, 2);
+            Decimal tempLat = Decimal.Parse(coordinates.lat, CultureInfo.InvariantCulture);
+            Decimal nyLat = Math.Round(tempLat, 2);
+            coordinates.lon = nyLon.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture);
+            coordinates.lat = nyLat.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture);
+
+            return coordinates;
+        }
+
+        private bool validCoordinates(Location coordinates)
+        {
+            float lon = float.Parse(coordinates.lon, CultureInfo.InvariantCulture);
+            float lat = float.Parse(coordinates.lat, CultureInfo.InvariantCulture);
+
+            if ((lon>= -160 && lon <=160)&&(lat>=-80 && lat<=80))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         private IEnumerable<Location> searchLocation(string input) { 
-            string[] outputs=new string[20];
-            int j = 0;
 
             ParseJsonPlace parse = new ParseJsonPlace();
             location=parse.ReadUrlAsync("https://www.smhi.se/wpt-a/backend_solr/autocomplete/search/", input);
-
-            /*if (input == "" || input == null)
-            {
-                return null;
-            }
-
-            foreach (var item in location)
-            {
-                outputs[j] = item.place;
-                j++;    
-            }*/
-
-            //outputs = outputs.Where(c => c != null).ToArray();
             return location;
         }
 
-        public class WeatherForecast
-        {
-            public string DateFormatted { get; set; }
-            public int TemperatureC { get; set; }
-            public string Summary { get; set; }
-
-            public int TemperatureF
-            {
-                get
-                {
-                    return 32 + (int)(TemperatureC / 0.5556);
-                }
-            }
-        }
 
         public class PL
         {

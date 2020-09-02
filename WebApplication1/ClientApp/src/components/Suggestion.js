@@ -55,9 +55,6 @@ export class SuggestionBox extends Component {
     }
 
     selectInput(p) {
-
-        
-
         fetch('api/SampleData/select',
             {
                 method: "POST",
