@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace WebApplication1.Controllers
 {
     [Route("api/[controller]")]
-    public class WeartherController : Controller
+    public class WeatherController : Controller
     {
         public IActionResult Index()
         {

@@ -63,7 +63,7 @@ namespace WebApplication1.Controllers
                 Location locTemp=changeNoDecimals(loc);
                 string coordSMHI ="lon/"+ locTemp.lon + "/lat/" + locTemp.lat + "/data.json";
                 string coordYR = "compact?lat="+ locTemp.lat + "&lon=" + locTemp.lon;
-                //Rootobject vaderSHMI = parse.ParseUrlSMHI("https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/", coordSMHI);
+                WeatherDetail[] vaderSHMI = parse.ParseUrlSMHI("https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/", coordSMHI);
                 RootobjectYR vader= parse.ParseUrlYRAsync("https://api.met.no/weatherapi/locationforecast/2.0/", coordYR);
                 string denniS = "dsd";
             }

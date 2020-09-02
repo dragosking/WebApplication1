@@ -13,7 +13,7 @@ namespace WebApplication1.API
     public class ParseJson
     {
 
-        public Rootobject ParseUrlSMHI(String Url, String UrlParameters)
+        public WeatherDetail[] ParseUrlSMHI(String Url, String UrlParameters)
         {
 
             HttpClient client = new HttpClient();
@@ -27,16 +27,10 @@ namespace WebApplication1.API
             if (responseMessage.IsSuccessStatusCode)
             {
 
-
-                var data = responseMessage.Content.ReadAsStringAsync().Result;
-          
+                var data = responseMessage.Content.ReadAsStringAsync().Result;    
                 var answer = JsonConvert.DeserializeObject<Rootobject>(data);
 
-                return cleanData(answer);
-               // return answer;
-                
-
-                //Make sure to add a reference to System.Net.Http.Formatting.dll
+                return CleanData2(answer);
 
             }
             else
@@ -53,7 +47,7 @@ namespace WebApplication1.API
             client.BaseAddress = new Uri(Url);
 
             client.DefaultRequestHeaders.Accept.Add(
-           new MediaTypeWithQualityHeaderValue("application/json"));
+            new MediaTypeWithQualityHeaderValue("application/json"));
         
             client.DefaultRequestHeaders.TryAddWithoutValidation("User-Agent", "Mozilla/5.0 (Windows NT 6.2; WOW64; rv:19.0) Gecko/20100101 Firefox/19.0");
             client.DefaultRequestHeaders.TryAddWithoutValidation("Accept-Charset", "ISO-8859-1");
@@ -73,6 +67,38 @@ namespace WebApplication1.API
                 return null;
             }
 
+        }
+
+        private WeatherDetail[] CleanData2(Rootobject first)
+        {
+
+            WeatherDetail[] data=new WeatherDetail[first.timeSeries.Length];
+            DateTime[] time= new DateTime[10];
+        
+
+            for (int i = 0; i < first.timeSeries.Length; i++)
+            {
+                DateTime timeTemp = first.timeSeries[i].validTime;
+                String temp=null;
+
+                for (int j = 0; j < first.timeSeries[i].parameters.Length; j++)
+                {
+                    if (first.timeSeries[i].parameters[j].name.Equals("t"))
+                    {
+                        temp = first.timeSeries[i].parameters[j].values[0].ToString();
+                    }
+                }
+
+                data[i] = new WeatherDetail
+                {
+                    temperature = temp,
+                    time=timeTemp,
+                };
+            }
+            //data[0].time = new DateTime();
+            //data[0].temperature = "22";
+
+            return data;
         }
 
         private Rootobject cleanData(Rootobject first)

@@ -7,10 +7,10 @@ namespace WebApplication1.Model
 {
     public class Weather
     {
-        private string approvedTime{ get; set; }
-        private string referenceTime { get; set; }
-    
-
+        public Coordinates coord { get; set; }
+        public string place { get; set; }
+        public WeatherDetail[] detailSMHI { get; set; }
+        public WeatherDetail[] detailYR { get; set; }
 
 
     }
