@@ -36,9 +36,13 @@ namespace WebApplication1.Controllers
         }
 
         [HttpPost("select")]
-        public void select([FromBody] Location pl)
+        public IActionResult select([FromBody] Location pl)
         {
-            searchCoordinates(pl);
+            Weather vi=SearchCoordinates(pl);
+
+
+            return View();
+
         }
 
         private Location getCoordinates(String place)
@@ -55,7 +59,8 @@ namespace WebApplication1.Controllers
             return loc;
         }
 
-        private void searchCoordinates(Location loc)
+      
+        public Weather SearchCoordinates(Location loc)
         {
             ParseJson parse=new ParseJson();
             if (validCoordinates(loc))
@@ -64,9 +69,18 @@ namespace WebApplication1.Controllers
                 string coordSMHI ="lon/"+ locTemp.lon + "/lat/" + locTemp.lat + "/data.json";
                 string coordYR = "compact?lat="+ locTemp.lat + "&lon=" + locTemp.lon;
                 WeatherDetail[] vaderSHMI = parse.ParseUrlSMHI("https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/", coordSMHI);
-                RootobjectYR vader= parse.ParseUrlYRAsync("https://api.met.no/weatherapi/locationforecast/2.0/", coordYR);
-                string denniS = "dsd";
+                WeatherDetail[] vaderYR= parse.ParseUrlYR("https://api.met.no/weatherapi/locationforecast/2.0/", coordYR);
+                Weather vader = new Weather
+                {
+                    place = loc.place,
+                    coord = null,
+                    detailSMHI=vaderSHMI,
+                    detailYR=vaderYR
+                };
+                return vader;
             }
+            return null;
+           
         }
 
         private Location changeNoDecimals(Location coordinates)

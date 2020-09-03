@@ -1,5 +1,8 @@
 ﻿import React, { Component } from 'react';
 import './Search.css';
+import { useHistory } from 'react-router-dom'
+
+
 
 export class SuggestionBox extends Component {
 
@@ -14,6 +17,7 @@ export class SuggestionBox extends Component {
             change:'noshow'
         };
 
+        const denin = useHistory.push();
         this.change = this.change.bind(this);
     }
 
@@ -66,9 +70,12 @@ export class SuggestionBox extends Component {
                 })
             });
 
+        this.props.denin.push('/post');
+
         this.setState({
             apa: p.place,
-            values: []
+            values: [],
+            change: 'noshow'
         })
     }
 
@@ -82,6 +89,7 @@ export class SuggestionBox extends Component {
 
     selectTag = (e) => {
         this.selectInput(this.state.values[e.target.id]);
+
     }
 
    

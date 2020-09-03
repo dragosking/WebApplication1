@@ -30,7 +30,7 @@ namespace WebApplication1.API
                 var data = responseMessage.Content.ReadAsStringAsync().Result;    
                 var answer = JsonConvert.DeserializeObject<Rootobject>(data);
 
-                return CleanData2(answer);
+                return CleanDataSMHI(answer);
 
             }
             else
@@ -40,7 +40,7 @@ namespace WebApplication1.API
 
         }
 
-        public RootobjectYR ParseUrlYRAsync(String Url, String UrlParameters)
+        public WeatherDetail[] ParseUrlYR(String Url, String UrlParameters)
         {
 
             HttpClient client = new HttpClient();
@@ -59,7 +59,7 @@ namespace WebApplication1.API
             {
                 string data = responseMessage.Content.ReadAsStringAsync().Result;
                 var answer = JsonConvert.DeserializeObject<RootobjectYR>(data);
-                return answer;
+                return CleanDataYR(answer);
 
             }
             else
@@ -69,7 +69,7 @@ namespace WebApplication1.API
 
         }
 
-        private WeatherDetail[] CleanData2(Rootobject first)
+        private WeatherDetail[] CleanDataSMHI(Rootobject first)
         {
 
             WeatherDetail[] data=new WeatherDetail[first.timeSeries.Length];
@@ -95,8 +95,36 @@ namespace WebApplication1.API
                     time=timeTemp,
                 };
             }
-            //data[0].time = new DateTime();
-            //data[0].temperature = "22";
+
+            return data;
+        }
+
+        private WeatherDetail[] CleanDataYR(RootobjectYR first)
+        {
+
+            WeatherDetail[] data = new WeatherDetail[first.properties.timeseries.Length];
+            DateTime[] time = new DateTime[10];
+
+
+            for (int i = 0; i < first.properties.timeseries.Length; i++)
+            {
+                DateTime timeTemp = first.properties.timeseries[i].time;
+                String temp = first.properties.timeseries[i].data.instant.details.air_temperature.ToString();
+
+                /*for (int j = 0; j < first.properties.timeseries[i]..Length; j++)
+                {
+                    if (first.timeSeries[i].parameters[j].name.Equals("t"))
+                    {
+                        temp = first.timeSeries[i].parameters[j].values[0].ToString();
+                    }
+                }*/
+
+                data[i] = new WeatherDetail
+                {
+                    temperature = temp,
+                    time = timeTemp,
+                };
+            }
 
             return data;
         }
