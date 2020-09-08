@@ -25,23 +25,31 @@ namespace WebApplication1.Controllers
 
 
         [HttpPost("test")]
-        public IEnumerable<Location> test([FromBody]PL pl)
+        public Weather[] test([FromBody]PL pl)
         {
             if (pl == null )
             { 
                 return null;
             }
 
-            return searchLocation(pl.a);
+            Weather[] test= sanka(pl.a);
+            return test;
+        }
+
+        public Weather[] sanka(string pl)
+        {
+            return SearchCoordinates(searchLocation(pl));
         }
 
         [HttpPost("select")]
-        public IActionResult select([FromBody] Location pl)
+        public string select([FromBody] Location pl)
         {
-            Weather vi=SearchCoordinates(pl);
+            // Weather vi=SearchCoordinates(pl);
 
+            IEnumerable<Location> loc = searchLocation(pl.place);
+            string dennis = "ddd";
 
-            return View();
+            return dennis;
 
         }
 
@@ -60,26 +68,37 @@ namespace WebApplication1.Controllers
         }
 
       
-        public Weather SearchCoordinates(Location loc)
+        public Weather[] SearchCoordinates(IEnumerable<Location> loc)
         {
             ParseJson parse=new ParseJson();
-            if (validCoordinates(loc))
+            Weather[] vaderlista = new Weather[loc.Count()];
+            int i = 0;
+
+            foreach (var item in loc)
             {
-                Location locTemp=changeNoDecimals(loc);
-                string coordSMHI ="lon/"+ locTemp.lon + "/lat/" + locTemp.lat + "/data.json";
-                string coordYR = "compact?lat="+ locTemp.lat + "&lon=" + locTemp.lon;
-                WeatherDetail[] vaderSHMI = parse.ParseUrlSMHI("https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/", coordSMHI);
-                WeatherDetail[] vaderYR= parse.ParseUrlYR("https://api.met.no/weatherapi/locationforecast/2.0/", coordYR);
-                Weather vader = new Weather
+                if (validCoordinates(item))
                 {
-                    place = loc.place,
-                    coord = null,
-                    detailSMHI=vaderSHMI,
-                    detailYR=vaderYR
-                };
-                return vader;
+                    Location locTemp = changeNoDecimals(item);
+                    string coordSMHI = "lon/" + locTemp.lon + "/lat/" + locTemp.lat + "/data.json";
+                    string coordYR = "compact?lat=" + locTemp.lat + "&lon=" + locTemp.lon;
+                    WeatherDetail[] vaderSHMI = parse.ParseUrlSMHI("https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/", coordSMHI);
+                        WeatherDetail[] vaderYR = parse.ParseUrlYR("https://api.met.no/weatherapi/locationforecast/2.0/", coordYR);
+                    Weather vader = new Weather
+                    {
+                        place = item.place,
+                        coord = new Coordinates {
+                            lat = locTemp.lat,
+                            lon=locTemp.lon
+                        }
+                        ,
+                        detailSMHI = vaderSHMI,
+                        detailYR = vaderYR
+                    };
+                    vaderlista[i] = vader;
+                    i++;
+                }
             }
-            return null;
+            return vaderlista;
            
         }
 

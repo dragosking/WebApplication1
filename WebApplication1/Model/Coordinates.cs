@@ -8,7 +8,7 @@ namespace WebApplication1.Model
     public class Coordinates
     {
 
-        private string lon { get; set; }
-        private string lat { get; set; }
+        public string lon { get; set; }
+        public string lat { get; set; }
     }
 }

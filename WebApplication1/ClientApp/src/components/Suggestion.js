@@ -1,7 +1,11 @@
 ﻿import React, { Component } from 'react';
 import './Search.css';
-import { useHistory } from 'react-router-dom'
 
+import { Counter } from './Counter';
+import { Route, withRouter } from 'react-router-dom';
+import { Post } from './Post';
+import { Link } from 'react-router-dom';
+import { Button } from 'reactstrap';
 
 
 export class SuggestionBox extends Component {
@@ -11,15 +15,23 @@ export class SuggestionBox extends Component {
         this.state = {
             text: '',
             apa: 'd',
-            va:'',
+            va:'a',
             count: 0,
             values: [],
-            change:'noshow'
+            change: 'noshow',
+            changeSMHI: 'noshow',
+            changeYR:'noshow',
+            redirect:false
         };
-
-        const denin = useHistory.push();
         this.change = this.change.bind(this);
     }
+
+    /*componentDidUpdate(prevProps, prevState) {
+        const { history } = this.props;
+   
+            history.push('/post');
+        
+    }*/
 
 
     handleInput(p) {
@@ -47,14 +59,9 @@ export class SuggestionBox extends Component {
             })
         } 
 
-       /* if (this.state.values >= 0) {
-
-        }*/
-
-       
         this.setState({
             text: p,
-            count: p.length,
+            count: this.state.values.length,
         })
     }
 
@@ -70,61 +77,88 @@ export class SuggestionBox extends Component {
                 })
             });
 
-        this.props.denin.push('/post');
-
         this.setState({
             apa: p.place,
             values: [],
-            change: 'noshow'
+            change: 'noshow',
+            redirect:true
         })
     }
 
     change(event) {
-
-        //this.setState({ text: event.target.value })
 
         this.handleInput(event.target.value);
     }
 
 
     selectTag = (e) => {
-        this.selectInput(this.state.values[e.target.id]);
-
+       // this.selectInput(this.state.values[e.target.id]);
+        this.setState({
+            apa: e.target.id,
+            values: [],
+            change: 'noshow',
+            redirect: true,
+            text:'',
+        })
     }
 
-   
-
+ 
     render() {
 
         let tagList = this.state.values.map((Tag, index) => {
+        
             return (
+                
+                <table>
+                    <tr className="rad">
 
-                /*<select id={index} class="tag" onClick={this.selectTag}>
-                    {tag.place}
-                </select>*/
+                        <td className="lank">
+                        
+                            <Link id={index} to={
+                                {
+                                    pathname: "/post/" + Tag.place,
+                                    myCustomProps: Tag.place
+                                }
+                            }    onClick={this.selectTag}>{Tag.place}</Link>
+                          
+                           
+                        </td>
+                        <td className="icon">
 
-                <div id={index} class="tag" onClick={this.selectTag}>{Tag.place}</div>
+                            <div className='iconyr'> </div>
+                           
+                            <div className='iconsmhi'> </div>
+                           
+                         
+                        </td>
+                      
 
+
+                    </tr>
+                    <tr>
+                        <div class="line"></div>
+                     
+
+                    </tr>
+                    
+                </table>
+                
             );
         });
 
-         
+       
 
         return (
             <form>
-
-                {this.state.count}
                 <input type='text' value={this.state.text} onChange={this.change} />
                 <br />
-
                 <div className={this.state.change}>
                     {tagList}
                 </div>
+
             </form>
         );
     }
-
-
-
 }
 
+export default SuggestionBox
