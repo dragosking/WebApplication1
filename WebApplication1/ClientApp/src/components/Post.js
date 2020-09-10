@@ -9,70 +9,90 @@ export class Post extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            r: 'ddsadadas',
-            t: this.props.location.myCustomProps,
-            values:[]
+            lat: this.props.location.state.latProps,
+            lon: this.props.location.state.lonProps,
+            place: this.props.location.state.placeProps,
+            yr: this.props.location.state.yrProps,
+            smhi: this.props.location.state.smhiProps,
         };
 
-        fetch('api/SampleData/select',
-            {
-                method: "POST",
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ place: this.state.t })
-            }).
-            then(response => response.json())
-            .then(data => {
-                this.setState({ values: data, loading: false });
-            });
+    
 
         
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if (prevProps.location.myCustomProps !== this.props.location.myCustomProps) {
+        if (prevProps.location.state !== this.props.location.state) {
             this.setState({
-                t: this.props.location.myCustomProps
+                place: this.props.location.state.placeProps,
+                 lat: this.props.location.state.latProps,
+                lon: this.props.location.state.lonProps,
+                yr: this.props.location.state.yrProps,
+                smhi: this.props.location.state.smhiProps,
             })
 
-            fetch('api/SampleData/select',
-                {
-                    method: "POST",
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        place: this.props.location.myCustomProps,
-        
-                    })
-                });
-
-          
+       
         }
-    }
 
-    selectTag2 = (e) => {
-        // this.selectInput(this.state.values[e.target.id]);
-        this.setState({
-
-            r:'finiad',
-        })
-    }
-
-     change() {
-
-        this.setState({
-
-            r: 'finiad',
-        })
+     
     }
 
 
     render() {
 
+        let yrList = this.state.yr.map((Tag, index) => {
+            return (
+                <table className='test2'>
+                    <td className='test7' >{Tag.hour}</td>
+                    <td className='test6'> <b>{Tag.temperature}</b></td>
+
+                </table>
+
+            );
+        });
+
+        let diffList = this.state.yr.map((Tag, index) => {
+            return (
+                <div>
+                   <b> {Tag.temperature}</b>
+
+                </div>
+
+            );
+        });
+
+
+        let smhiList = this.state.smhi.map((Tag, index) => {
+            return (
+                <table className='test4'>
+                    <td className='test7' ><b> {Tag.temperature}</b></td>
+                    <td className='test6'> {Tag.time}</td>
+                </table>
+
+            );
+        });
+
+       
         return (
             <form>
+                <h1>{this.state.place}</h1>
+                <table className='test2'>
+                    <tr  className='test3'>
+                        <td className='firstColumn'><div className='test'></div></td>
+                        <td className='secondColumn'></td>
+                        <td className='thirdColumn'><div className='testSMHI'></div></td>
+                    </tr>
+                    <td className='firstColumn'>{yrList}</td>
+                    <td className='secondColumn'></td>
+                    <td className='thirdColumn'>{smhiList}</td>
+                  
+                    
+                   
+                </table>
 
-                <h1>{this.state.t}</h1>
-                
+             
             </form>
+           
         );
     }
 }

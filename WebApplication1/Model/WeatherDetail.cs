@@ -10,6 +10,8 @@ namespace WebApplication1.Model
         public string temperature { get; set; }
         public DateTime time { get; set; }
 
-      
+        public string hour { get; set; }
+
+
     }
 }

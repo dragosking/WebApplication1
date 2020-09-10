@@ -117,9 +117,15 @@ export class SuggestionBox extends Component {
                             <Link id={index} to={
                                 {
                                     pathname: "/post/" + Tag.place,
-                                    myCustomProps: Tag.place
+                                    state: {
+                                        placeProps: Tag.place,
+                                        latProps: Tag.coord.lat,
+                                        lonProps: Tag.coord.lon,
+                                        yrProps: Tag.detailYR,
+                                        smhiProps: Tag.detailSMHI,
+                                    }
                                 }
-                            }    onClick={this.selectTag}>{Tag.place}</Link>
+                            } onClick={this.selectTag}>{Tag.place}</Link>
                           
                            
                         </td>
@@ -152,6 +158,7 @@ export class SuggestionBox extends Component {
             <form>
                 <input type='text' value={this.state.text} onChange={this.change} />
                 <br />
+               
                 <div className={this.state.change}>
                     {tagList}
                 </div>

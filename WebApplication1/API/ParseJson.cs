@@ -72,11 +72,11 @@ namespace WebApplication1.API
         private WeatherDetail[] CleanDataSMHI(Rootobject first)
         {
 
-            WeatherDetail[] data=new WeatherDetail[first.timeSeries.Length];
+            WeatherDetail[] data=new WeatherDetail[48];
             DateTime[] time= new DateTime[10];
         
 
-            for (int i = 0; i < first.timeSeries.Length; i++)
+            for (int i = 0; i < 48; i++)
             {
                 DateTime timeTemp = first.timeSeries[i].validTime;
                 String temp=null;
@@ -89,10 +89,14 @@ namespace WebApplication1.API
                     }
                 }
 
+                temp = temp.Replace(",", ".");
+                temp = string.Format("{0}°C", temp);
+
                 data[i] = new WeatherDetail
                 {
                     temperature = temp,
                     time=timeTemp,
+                    hour= timeTemp.ToString("HH:mm"),
                 };
             }
 
@@ -102,11 +106,11 @@ namespace WebApplication1.API
         private WeatherDetail[] CleanDataYR(RootobjectYR first)
         {
 
-            WeatherDetail[] data = new WeatherDetail[first.properties.timeseries.Length];
+            WeatherDetail[] data = new WeatherDetail[49];
             DateTime[] time = new DateTime[10];
 
 
-            for (int i = 0; i < first.properties.timeseries.Length; i++)
+            for (int i = 0; i < 49; i++)
             {
                 DateTime timeTemp = first.properties.timeseries[i].time;
                 String temp = first.properties.timeseries[i].data.instant.details.air_temperature.ToString();
@@ -118,56 +122,21 @@ namespace WebApplication1.API
                         temp = first.timeSeries[i].parameters[j].values[0].ToString();
                     }
                 }*/
+                temp = temp.Replace(",", ".");
+                temp= string.Format("{0}°C", temp);
 
                 data[i] = new WeatherDetail
                 {
-                    temperature = temp,
+                    temperature = temp.Replace(",", "."),
                     time = timeTemp,
+                    hour = timeTemp.ToString("HH:mm"),
                 };
             }
 
             return data;
         }
 
-        private Rootobject cleanData(Rootobject first)
-        {
-            Rootobject after;
-            Model.Timesery[] seriesTemp=new Model.Timesery[first.timeSeries.Length];
-            Parameter[] parasTemp=new Parameter[1];
-
-        
-            DateTime appTemp = first.approvedTime;
-            for (int i = 0; i < first.timeSeries.Length; i++)
-            {
-                DateTime validTemp = first.timeSeries[i].validTime;
-
-                for(int j=0; j < first.timeSeries[i].parameters.Length; j++ )
-                {
-                    if (first.timeSeries[i].parameters[j].name.Equals("t"))
-                    {
-                        parasTemp[0] = first.timeSeries[i].parameters[j];
-                    }
-
-                }
-
-                seriesTemp[i] = new Model.Timesery
-                {
-                    validTime = validTemp,
-                    parameters = parasTemp
-                };
-         
-            }
-
-
-            after = new Rootobject
-            {
-                approvedTime = appTemp,
-                timeSeries=seriesTemp
-            };
-
-            return after;
-
-        }
+      
 
     
 

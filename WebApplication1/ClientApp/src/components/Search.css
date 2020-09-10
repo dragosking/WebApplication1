@@ -57,6 +57,94 @@
     top: 5px;
 }
 
+.test {
+    background-image: url(../images/yr-logo.png);
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: cover;
+    float: right;
+    height: 40px;
+    width: 40px;
+
+}
+
+
+.testSMHI {
+    background-image: url(../images/smhi2.png);
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: cover;
+    float: left;
+    height: 40px;
+    width: 40px;
+}
+
+.test2 {
+    width: 100%;
+  
+}
+
+.firstColumn {
+
+    width: 45%;
+    padding-right:5px;
+}
+
+.secondColumn {
+
+    width: 2%;
+    text-align: center;
+    border-right: 5px solid gray;
+    border-left: 5px solid gray;
+}
+
+.thirdColumn {
+  
+    width: 45%;
+    padding-left: 5px;
+}
+
+
+
+.test3 {
+    width: 100%;
+    height:50px;
+    background-color:lightgray;
+    padding-right: 5px;
+    border-bottom: 5px solid gray;
+}
+
+.test4 {
+ 
+    width:100%;
+
+}
+
+.test5 {
+    width: 50%;
+    text-align: right;
+
+    padding-right: 5px;
+
+}
+
+.test6 {
+
+    width: 5px;
+    text-align: right;
+
+
+}
+
+.test7 {
+    width: 50%;
+
+    padding-left:5px;
+}
+
+
+
+
 .iconyr {
     background-image: url(../images/yr-logo.png);
     background-position: center; /* Center the image */
