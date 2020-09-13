@@ -16,6 +16,7 @@ namespace WebApplication1.Controllers
 
         private int count;
         private IEnumerable<Location> location;
+        private object detail;
 
         public SampleDataController()
         {
@@ -33,6 +34,15 @@ namespace WebApplication1.Controllers
             }
 
             Weather[] test= sanka(pl.a);
+
+            /*string va = test[1].place;
+            String dennis = "nollad";
+            if(test[1].detailYR[0].time.Date== DateTime.Today)
+            {
+                dennis = "Today";
+            }*/
+
+            int o = 2;
             return test;
         }
 
@@ -96,6 +106,21 @@ namespace WebApplication1.Controllers
             WeatherDetail[] vaderSHMI = parse.ParseUrlSMHI("https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/", coordSMHI);
             WeatherDetail[] vaderYR = parse.ParseUrlYR("https://api.met.no/weatherapi/locationforecast/2.0/", coordYR);
 
+            if (vaderSHMI == null)
+            {
+                vaderSHMI = new WeatherDetail[1];
+                vaderSHMI[0] = new WeatherDetail
+                {
+                    temperature = "no values",
+                    time=DateTime.MinValue,
+
+                };
+            }
+
+            Days[] das = splitDays(vaderYR);
+
+            string va = "Dd";
+
             vaderYR = vaderYR.Skip(1).ToArray();
             Weather vader = new Weather
             {
@@ -111,6 +136,67 @@ namespace WebApplication1.Controllers
             };
 
             return vader;
+        }
+
+        private Days[] splitDays(WeatherDetail[] input)
+        {
+            Days[] days = new Days[3];
+            
+            WeatherDetail[] tempDetail = new WeatherDetail[input.Length];
+            int j = 0;
+            int f = 0;
+            DateTime temp = input[0].time.Date;
+
+
+            for (int i=0; i < input.Length; i++)
+            {
+                
+
+                if (input[i].time.Date!= temp)
+                {
+                  
+                    days[j] = new Days
+                    {
+                        day = input[i-1].time.Date.DayOfWeek.ToString(),
+                        detail = tempDetail,
+                        
+                    };
+
+                    j = j + 1;
+                    f = 0;
+
+                    tempDetail = new WeatherDetail[input.Length];
+                    tempDetail[f] = new WeatherDetail
+                    {
+                        hour = "test",
+                        temperature = "test",
+                        time = input[i].time,
+                    };
+                    f = f + 1;
+                    temp =input[i].time.Date;
+                   
+                }
+                else
+                {
+                   
+                    tempDetail[f] = new WeatherDetail
+                    {
+                        hour = "test",
+                        temperature = "test",
+                        time = input[i].time,
+                    };
+              
+                    f = f + 1;
+                }     
+
+            }
+
+            DateTime edff = temp;
+            string dfenni = "";
+           
+
+            return days;
+
         }
 
         private Location changeNoDecimals(Location coordinates)
