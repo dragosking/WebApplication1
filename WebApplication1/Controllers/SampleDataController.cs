@@ -117,9 +117,18 @@ namespace WebApplication1.Controllers
                 };
             }
 
-            Days[] das = splitDays(vaderYR);
+            Days[] das = new Days[3];
 
             string va = "Dd";
+
+            string[] test = new string[5];
+            for(int i = 0; i < das.Length; i++)
+            {
+                das[i] = new Days
+                {
+                    day = "ddd"
+                };
+            }
 
             vaderYR = vaderYR.Skip(1).ToArray();
             Weather vader = new Weather
@@ -131,18 +140,19 @@ namespace WebApplication1.Controllers
                     lon = loc.lon
                 }
                 ,
+                WeatherByDay = das,
                 detailSMHI = vaderSHMI,
-                detailYR = vaderYR
+                detailYR = vaderYR,
+                test = test
             };
 
             return vader;
         }
 
-        private Days[] splitDays(WeatherDetail[] input)
+        /*private Days[] splitDays(WeatherDetail[] input)
         {
-            Days[] days = new Days[3];
-            
-            WeatherDetail[] tempDetail = new WeatherDetail[input.Length];
+            Days[] days = new Days[3];           
+            WeatherDetail[] tempDetail = new WeatherDetail[24];
             int j = 0;
             int f = 0;
             DateTime temp = input[0].time.Date;
@@ -150,11 +160,9 @@ namespace WebApplication1.Controllers
 
             for (int i=0; i < input.Length; i++)
             {
-                
-
-                if (input[i].time.Date!= temp)
+                if (input[i].time.Date!= temp || i==input.Length-1)
                 {
-                  
+                    tempDetail = tempDetail.Where(c => c != null).ToArray();
                     days[j] = new Days
                     {
                         day = input[i-1].time.Date.DayOfWeek.ToString(),
@@ -162,42 +170,29 @@ namespace WebApplication1.Controllers
                         
                     };
 
-                    j = j + 1;
-                    f = 0;
-
-                    tempDetail = new WeatherDetail[input.Length];
-                    tempDetail[f] = new WeatherDetail
+                    if(i != input.Length-1)
                     {
-                        hour = "test",
-                        temperature = "test",
-                        time = input[i].time,
-                    };
-                    f = f + 1;
+                        j = j + 1;
+                    }
+                    
+                    f = 0;
+                    tempDetail = new WeatherDetail[24];             
                     temp =input[i].time.Date;
                    
                 }
-                else
+                tempDetail[f] = new WeatherDetail
                 {
-                   
-                    tempDetail[f] = new WeatherDetail
-                    {
-                        hour = "test",
-                        temperature = "test",
-                        time = input[i].time,
-                    };
-              
-                    f = f + 1;
-                }     
+                    hour = "test",
+                    temperature = "test",
+                    time = input[i].time,
+                };
 
+                f = f + 1;
             }
-
-            DateTime edff = temp;
-            string dfenni = "";
-           
 
             return days;
 
-        }
+        }*/
 
         private Location changeNoDecimals(Location coordinates)
         {

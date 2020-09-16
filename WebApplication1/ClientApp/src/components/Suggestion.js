@@ -123,6 +123,7 @@ export class SuggestionBox extends Component {
                                         lonProps: Tag.coord.lon,
                                         yrProps: Tag.detailYR,
                                         smhiProps: Tag.detailSMHI,
+                                        daysProps: Tag.WeatherByDay
                                     }
                                 }
                             } onClick={this.selectTag}>{Tag.place}</Link>

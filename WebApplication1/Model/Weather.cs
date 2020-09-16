@@ -12,6 +12,10 @@ namespace WebApplication1.Model
         public WeatherDetail[] detailSMHI { get; set; }
         public WeatherDetail[] detailYR { get; set; }
 
+        public Days[] WeatherByDay { get; set; }
+
+        public string[] test { get; set; }
+
 
     }
 }

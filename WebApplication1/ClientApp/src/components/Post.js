@@ -13,7 +13,7 @@ export class Post extends Component {
             lon: this.props.location.state.lonProps,
             place: this.props.location.state.placeProps,
             yr: this.props.location.state.yrProps,
-            smhi: this.props.location.state.smhiProps,
+            days: this.props.location.state.daysProps,
         };
 
     
@@ -28,10 +28,8 @@ export class Post extends Component {
                  lat: this.props.location.state.latProps,
                 lon: this.props.location.state.lonProps,
                 yr: this.props.location.state.yrProps,
-                smhi: this.props.location.state.smhiProps,
-            })
-
        
+            })
         }
 
      
@@ -43,15 +41,26 @@ export class Post extends Component {
         let yrList = this.state.yr.map((Tag, index) => {
             return (
                 <table className='test2'>
-                    <td className='test7' >{Tag.hour}</td>
-                    <td className='test6'> <b>{Tag.temperature}</b></td>
+                    <td className='test7' ><b> {Tag.temperature}</b></td>
+                    <td className='test6'> {Tag.time}</td>
+            
 
                 </table>
 
             );
         });
 
-        let diffList = this.state.yr.map((Tag, index) => {
+           let daysList = this.state.days.map((Tag, index) => {
+            return (
+                <div>
+                   <b> {Tag.day}</b>
+
+                </div>
+
+            );
+        });
+
+        /*let diffList = this.state.yr.map((Tag, index) => {
             return (
                 <div>
                    <b> {Tag.temperature}</b>
@@ -70,7 +79,7 @@ export class Post extends Component {
                 </table>
 
             );
-        });
+        });*/
 
        
         return (
@@ -84,7 +93,7 @@ export class Post extends Component {
                     </tr>
                     <td className='firstColumn'>{yrList}</td>
                     <td className='secondColumn'></td>
-                    <td className='thirdColumn'>{smhiList}</td>
+                    <td className='thirdColumn'>{daysList}</td>
                   
                     
                    
