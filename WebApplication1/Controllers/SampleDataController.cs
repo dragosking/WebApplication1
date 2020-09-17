@@ -108,29 +108,39 @@ namespace WebApplication1.Controllers
 
             if (vaderSHMI == null)
             {
-                vaderSHMI = new WeatherDetail[1];
-                vaderSHMI[0] = new WeatherDetail
+                vaderSHMI = new WeatherDetail[vaderYR.Length];
+                for(int i = 0; i < vaderYR.Length; i++)
                 {
-                    temperature = "no values",
-                    time=DateTime.MinValue,
-
-                };
+                    vaderSHMI[i] = new WeatherDetail
+                    {
+                        temperature = "",
+                        time = DateTime.MinValue,
+                    };
+                }
             }
+            
+            
 
-            Days[] das = new Days[3];
+            vaderYR = vaderYR.Skip(1).ToArray();
+            Days[] das = splitDays(vaderYR,vaderSHMI);
+            //das = vaderSHMI;
 
             string va = "Dd";
 
             string[] test = new string[5];
-            for(int i = 0; i < das.Length; i++)
+            /*for(int i = 0; i < das.Length; i++)
             {
-                das[i] = new Days
+                das[i] = new WeatherDetail
                 {
-                    day = "ddd"
+                    hour = "ddd"
                 };
-            }
 
-            vaderYR = vaderYR.Skip(1).ToArray();
+                //test[i] = "ss";
+            }*/
+
+            //vaderSHMI = das;
+
+     
             Weather vader = new Weather
             {
                 place = loc.place,
@@ -140,8 +150,7 @@ namespace WebApplication1.Controllers
                     lon = loc.lon
                 }
                 ,
-                WeatherByDay = das,
-                detailSMHI = vaderSHMI,
+                detailSMHI = das,
                 detailYR = vaderYR,
                 test = test
             };
@@ -149,10 +158,10 @@ namespace WebApplication1.Controllers
             return vader;
         }
 
-        /*private Days[] splitDays(WeatherDetail[] input)
+        private Days[] splitDays(WeatherDetail[] input, WeatherDetail[] input2)
         {
             Days[] days = new Days[3];           
-            WeatherDetail[] tempDetail = new WeatherDetail[24];
+            Test[] tempDetail = new Test[24];
             int j = 0;
             int f = 0;
             DateTime temp = input[0].time.Date;
@@ -165,7 +174,7 @@ namespace WebApplication1.Controllers
                     tempDetail = tempDetail.Where(c => c != null).ToArray();
                     days[j] = new Days
                     {
-                        day = input[i-1].time.Date.DayOfWeek.ToString(),
+                        day = input[i-1].time.Date.DayOfWeek.ToString()+"  " + input[i - 1].time.Date.Day +"/"+ input[i - 1].time.Date.Month,
                         detail = tempDetail,
                         
                     };
@@ -176,15 +185,15 @@ namespace WebApplication1.Controllers
                     }
                     
                     f = 0;
-                    tempDetail = new WeatherDetail[24];             
+                    tempDetail = new Test[24];             
                     temp =input[i].time.Date;
                    
                 }
-                tempDetail[f] = new WeatherDetail
+                tempDetail[f] = new Test
                 {
-                    hour = "test",
-                    temperature = "test",
-                    time = input[i].time,
+                    hour = input[i].hour,
+                    temperatureYR = input[i].temperature,
+                    temperatureSMHI = input2[i].temperature,
                 };
 
                 f = f + 1;
@@ -192,7 +201,7 @@ namespace WebApplication1.Controllers
 
             return days;
 
-        }*/
+        }
 
         private Location changeNoDecimals(Location coordinates)
         {

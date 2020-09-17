@@ -10,7 +10,7 @@ namespace WebApplication1.Model
 
         public string day { get; set; }
 
-       // public WeatherDetail[] detail { get; set; }
+        public Test[] detail { get; set; }
 
 
     }

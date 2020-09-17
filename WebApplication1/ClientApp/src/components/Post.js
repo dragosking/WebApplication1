@@ -13,6 +13,7 @@ export class Post extends Component {
             lon: this.props.location.state.lonProps,
             place: this.props.location.state.placeProps,
             yr: this.props.location.state.yrProps,
+            smhi: this.props.location.state.smhiProps,
             days: this.props.location.state.daysProps,
         };
 
@@ -28,7 +29,8 @@ export class Post extends Component {
                  lat: this.props.location.state.latProps,
                 lon: this.props.location.state.lonProps,
                 yr: this.props.location.state.yrProps,
-       
+                smhi: this.props.location.state.smhiProps,
+                days: this.props.location.state.daysProps,
             })
         }
 
@@ -50,55 +52,61 @@ export class Post extends Component {
             );
         });
 
-           let daysList = this.state.days.map((Tag, index) => {
+           let daysList = this.state.smhi.map((Tag, index) => {
             return (
                 <div>
-                   <b> {Tag.day}</b>
+                   
 
+                    <table className="days">
+                        <tr>
+                            <td className="days">
+                                <h4>{Tag.day}</h4>
+                            </td>
+                            <td>
+                                <button className='iconCollapse' onClick={() => this.hideRow(index)}></button>
+                            </td>
+                        </tr>
+                    </table>
+
+                            {
+                                Tag.detail.map((SubTag, index2) =>
+                                    <table className='test2'>
+                                        <tr >
+                                            <td className='first'>{SubTag.hour}</td>
+                                            <td className='second'><b>{SubTag.temperatureYR}</b></td>
+                                            <td className='third'><b>{SubTag.temperatureSMHI}</b></td>
+                                            <td className='fourth'>{SubTag.hour}</td>
+                                        </tr>
+                                    </table>
+                                )
+                            }
+
+                        
                 </div>
-
+               
             );
         });
-
-        /*let diffList = this.state.yr.map((Tag, index) => {
-            return (
-                <div>
-                   <b> {Tag.temperature}</b>
-
-                </div>
-
-            );
-        });
-
-
-        let smhiList = this.state.smhi.map((Tag, index) => {
-            return (
-                <table className='test4'>
-                    <td className='test7' ><b> {Tag.temperature}</b></td>
-                    <td className='test6'> {Tag.time}</td>
-                </table>
-
-            );
-        });*/
 
        
         return (
             <form>
-                <h1>{this.state.place}</h1>
+
                 <table className='test2'>
-                    <tr  className='test3'>
-                        <td className='firstColumn'><div className='test'></div></td>
-                        <td className='secondColumn'></td>
-                        <td className='thirdColumn'><div className='testSMHI'></div></td>
+                    <tr>
+                        <td className="firstColumn">
+                            <h1>{this.state.place}</h1>
+                        </td>
+                        <td className="secondColumn">
+                            <div className='test'></div>
+                            <div className='testSMHI'></div>
+                        </td>
+                        <td className="thirdColumn">
+                        
+                        </td>
                     </tr>
-                    <td className='firstColumn'>{yrList}</td>
-                    <td className='secondColumn'></td>
-                    <td className='thirdColumn'>{daysList}</td>
-                  
-                    
-                   
                 </table>
 
+                <div>{daysList}</div>
              
             </form>
            

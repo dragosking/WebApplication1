@@ -9,10 +9,10 @@ namespace WebApplication1.Model
     {
         public Coordinates coord { get; set; }
         public string place { get; set; }
-        public WeatherDetail[] detailSMHI { get; set; }
+        public Days[] detailSMHI { get; set; }
         public WeatherDetail[] detailYR { get; set; }
 
-        public Days[] WeatherByDay { get; set; }
+        public WeatherDetail[] WeatherByDay { get; set; }
 
         public string[] test { get; set; }
 

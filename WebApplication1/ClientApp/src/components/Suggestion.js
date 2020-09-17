@@ -156,10 +156,8 @@ export class SuggestionBox extends Component {
        
 
         return (
-            <form>
-                <input type='text' value={this.state.text} onChange={this.change} />
-                <br />
-               
+            <form className="holder">
+                <input type='text' placeholder="Search..." value={this.state.text} onChange={this.change} />
                 <div className={this.state.change}>
                     {tagList}
                 </div>

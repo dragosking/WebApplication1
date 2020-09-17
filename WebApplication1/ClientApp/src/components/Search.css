@@ -58,19 +58,33 @@
 }
 
 .test {
-    background-image: url(../images/yr-logo.png);
+    background-image: url(../images/smhi2.png);
     background-position: center; /* Center the image */
     background-repeat: no-repeat; /* Do not repeat the image */
     background-size: cover;
     float: right;
     height: 40px;
     width: 40px;
+}
 
+.iconCollapse {
+    background-image: url(../images/collapse.png);
+    background-color: Transparent;
+    border: none;
+    overflow: hidden;
+    outline: none;
+    margin-right: 10px;
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: cover;
+    float: right;
+    height: 40px;
+    width: 40px;
 }
 
 
 .testSMHI {
-    background-image: url(../images/smhi2.png);
+    background-image: url(../images/yr-logo.png );
     background-position: center; /* Center the image */
     background-repeat: no-repeat; /* Do not repeat the image */
     background-size: cover;
@@ -84,6 +98,56 @@
   
 }
 
+
+
+.days {
+    background-color: #ff7800;
+    color: #00ffff;
+    height: 50px;
+    width:100%;
+    padding-left: 10px;
+    padding-top: 10px;
+}
+
+.first{
+    width:10%;
+}
+
+.second {
+    text-align: right;
+    color:red;
+    border-right: 5px solid #ff7800;
+    padding-right: 5px;
+    width: 20%;
+}
+
+.third {
+    text-align: left;
+    color: red;
+    border-left: 5px solid #ff7800;
+    padding-left: 5px;
+    width: 20%;
+}
+
+.fourth{
+    text-align:right;
+    width:10%;
+}
+
+.stad{
+    background-color:blue;
+    width:10%;
+}
+
+.loggor {
+    margin: 0 auto;
+    width: 20%;
+    background-color: blue;
+    text-align: center;
+    min-width: 100px;
+    height: 100%;
+}
+
 .firstColumn {
 
     width: 45%;
@@ -92,10 +156,9 @@
 
 .secondColumn {
 
-    width: 2%;
+    width: 10%;
+    min-width:100px;
     text-align: center;
-    border-right: 5px solid gray;
-    border-left: 5px solid gray;
 }
 
 .thirdColumn {
@@ -142,7 +205,28 @@
     padding-left:5px;
 }
 
+input[type=text] {
+    width: 60%;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: white;
+    background-image: url(../images/search-icon.png);
+    background-position: 10px 10px;
+    background-repeat: no-repeat;
+    padding: 12px 20px 12px 40px;
+    transition: width 0.4s ease-in-out;
+}
 
+    input[type=text]:focus {
+        width: 100%;
+    }
+
+.holder{
+    width:50%;
+  
+}
 
 
 .iconyr {

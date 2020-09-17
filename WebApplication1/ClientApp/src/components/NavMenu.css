@@ -2,17 +2,49 @@
   white-space: normal;
   text-align: center;
   word-break: break-all;
+
 }
 
 html {
   font-size: 14px;
+
 }
 @media (min-width: 768px) {
   html {
     font-size: 16px;
+
   }
+}
+
+
+.cont{
+    width:100%;
+  
+
+}
+
+.jead{
+
 }
 
 .box-shadow {
   box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+.logga {
+    background-image: url(../images/vaderjakt2.png);
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: cover;
+    position: center;
+    margin: 0 auto;
+    bottom: 0px;
+    height: 50px;
+    min-width:120px;
+}
+
+.ha {
+
+    background-color:yellow;
+    width:100%;
 }
