@@ -7,6 +7,7 @@ using System.Net.Http.Headers;
 using WebApplication1.Model;
 using Newtonsoft.Json;
 using static WebApplication1.Model.YRModel;
+using System.Globalization;
 
 namespace WebApplication1.API
 {
@@ -90,6 +91,9 @@ namespace WebApplication1.API
                 }
 
                 temp = temp.Replace(",", ".");
+                Decimal tempLon = Decimal.Parse(temp, CultureInfo.InvariantCulture);
+
+                temp = tempLon.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture);
                 temp = string.Format("{0}°C", temp);
 
                 data[i] = new WeatherDetail
@@ -113,17 +117,14 @@ namespace WebApplication1.API
             for (int i = 0; i < 49; i++)
             {
                 DateTime timeTemp = first.properties.timeseries[i].time;
-                String temp = first.properties.timeseries[i].data.instant.details.air_temperature.ToString();
+                string temp = first.properties.timeseries[i].data.instant.details.air_temperature.ToString();
+                
 
-                /*for (int j = 0; j < first.properties.timeseries[i]..Length; j++)
-                {
-                    if (first.timeSeries[i].parameters[j].name.Equals("t"))
-                    {
-                        temp = first.timeSeries[i].parameters[j].values[0].ToString();
-                    }
-                }*/
                 temp = temp.Replace(",", ".");
-                temp= string.Format("{0}°C", temp);
+                Decimal tempLon = Decimal.Parse(temp, CultureInfo.InvariantCulture);
+
+                temp=tempLon.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture);
+                temp = string.Format("{0}°C", temp);
 
                 data[i] = new WeatherDetail
                 {

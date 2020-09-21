@@ -68,7 +68,45 @@
 }
 
 .iconCollapse {
+    cursor: pointer;
     background-image: url(../images/collapse.png);
+    background-color: Transparent;
+    border: none;
+    overflow: hidden;
+    outline: none;
+    margin-right: 10px;
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: cover;
+    float: right;
+    height: 40px;
+    width: 40px;
+}
+
+.firstCollapse0 {
+    display: none;
+}
+
+.firstExpand {
+   width:100%;
+}
+
+.firstCollapse1 {
+    width: 100%;
+}
+
+.firstExpand1 {
+    width: 100%;
+}
+
+.iconCollapse2 {
+    width: 100%;
+   
+}
+
+.iconExpand {
+    cursor: pointer;
+    background-image: url(../images/expand.png);
     background-color: Transparent;
     border: none;
     overflow: hidden;

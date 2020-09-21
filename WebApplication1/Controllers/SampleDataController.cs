@@ -123,27 +123,13 @@ namespace WebApplication1.Controllers
 
             vaderYR = vaderYR.Skip(1).ToArray();
             Days[] das = splitDays(vaderYR,vaderSHMI);
-            //das = vaderSHMI;
-
-            string va = "Dd";
 
             string[] test = new string[5];
-            /*for(int i = 0; i < das.Length; i++)
-            {
-                das[i] = new WeatherDetail
-                {
-                    hour = "ddd"
-                };
-
-                //test[i] = "ss";
-            }*/
-
-            //vaderSHMI = das;
 
      
             Weather vader = new Weather
             {
-                place = loc.place,
+                place = loc.place+", "+ loc.country,
                 coord = new Coordinates
                 {
                     lat = loc.lat,
@@ -189,6 +175,9 @@ namespace WebApplication1.Controllers
                     temp =input[i].time.Date;
                    
                 }
+
+            
+
                 tempDetail[f] = new Test
                 {
                     hour = input[i].hour,
@@ -201,6 +190,13 @@ namespace WebApplication1.Controllers
 
             return days;
 
+        }
+
+        private string changeDec(string input)
+        {
+            Decimal tempLon = Decimal.Parse(input, CultureInfo.InvariantCulture);
+
+            return tempLon.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture);
         }
 
         private Location changeNoDecimals(Location coordinates)

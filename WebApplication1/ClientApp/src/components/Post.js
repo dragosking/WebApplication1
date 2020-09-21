@@ -15,6 +15,8 @@ export class Post extends Component {
             yr: this.props.location.state.yrProps,
             smhi: this.props.location.state.smhiProps,
             days: this.props.location.state.daysProps,
+            hide: "test2",
+            expand:"iconExpand"
         };
 
     
@@ -35,6 +37,36 @@ export class Post extends Component {
         }
 
      
+    }
+
+    hide = (e) => {
+        /*if (this.state.hide == "noshow") {
+            this.setState({
+                apa: e.target.id,
+                hide: "test2",
+                expand: "iconCollapse"+e.target.id
+            })
+        } else {
+            this.setState({
+                apa: e.target.id,
+                hide: "noshow",
+                expand: "iconExpand"
+            })
+        }*/
+
+        /*if (e.target.id == 0) {
+            if (this.state.expand == "firstCollapse") {
+                this.setState({
+                    expand: "firstExpand",
+                })
+            } else {
+                this.setState({
+                    expand: "firstCollapse",
+                })
+            }
+        }*/
+
+       
     }
 
 
@@ -63,14 +95,15 @@ export class Post extends Component {
                                 <h4>{Tag.day}</h4>
                             </td>
                             <td>
-                                <button className='iconCollapse' onClick={() => this.hideRow(index)}></button>
+                                <div className="iconCollapse" id={index} 
+                                 onClick={this.hide}></div>
                             </td>
                         </tr>
                     </table>
 
-                            {
-                                Tag.detail.map((SubTag, index2) =>
-                                    <table className='test2'>
+                    {
+                        Tag.detail.map((SubTag, index2) =>
+                            <table className={"firstExpand"}>
                                         <tr >
                                             <td className='first'>{SubTag.hour}</td>
                                             <td className='second'><b>{SubTag.temperatureYR}</b></td>
@@ -90,7 +123,7 @@ export class Post extends Component {
        
         return (
             <form>
-
+                {this.state.expand}
                 <table className='test2'>
                     <tr>
                         <td className="firstColumn">
