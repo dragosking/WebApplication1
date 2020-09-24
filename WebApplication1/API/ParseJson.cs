@@ -81,6 +81,7 @@ namespace WebApplication1.API
             {
                 DateTime timeTemp = first.timeSeries[i].validTime;
                 String temp=null;
+                String tempCoverage = null;
 
                 for (int j = 0; j < first.timeSeries[i].parameters.Length; j++)
                 {
@@ -88,6 +89,15 @@ namespace WebApplication1.API
                     {
                         temp = first.timeSeries[i].parameters[j].values[0].ToString();
                     }
+
+                    if (first.timeSeries[i].parameters[j].name.Equals("Wsymb2"))
+                    {
+
+                        tempCoverage = first.timeSeries[i].parameters[j].values[0].ToString();
+                        tempCoverage = ChangeValue(tempCoverage);
+                    }
+
+                 
                 }
 
                 temp = temp.Replace(",", ".");
@@ -99,6 +109,7 @@ namespace WebApplication1.API
                 data[i] = new WeatherDetail
                 {
                     temperature = temp,
+                    coverage=tempCoverage,
                     time=timeTemp,
                     hour= timeTemp.ToString("HH:mm"),
                 };
@@ -106,6 +117,72 @@ namespace WebApplication1.API
 
             return data;
         }
+
+
+        //fixa bättre
+        private string ChangeValue(string input)
+        {
+            string temp = null;
+            if (input.Equals("1"))
+            {
+                temp = "clear";
+            }
+            else if (input.Equals("2")){
+                temp = "fair";
+            }
+            else if (input.Equals("3") || input.Equals("4"))
+            {
+                temp = "partly";
+            }
+            else if (input.Equals("5") || input.Equals("6"))
+            {
+                temp = "cloudy";
+            }
+            else if (input.Equals("7"))
+            {
+                temp = "foggy";
+            }
+            else if (input.Equals("8") || input.Equals("9") || input.Equals("10") || input.Equals("18") || input.Equals("19") || input.Equals("20") )
+            {
+                temp = "rain";
+            }
+
+            return temp;
+        }
+
+
+        private string ChangeValueYR(string input)
+        {
+            string temp = null;
+            if (input.Equals("clearsky_day") || input.Equals("clearsky_night"))
+            {
+                temp = "clear";
+            }
+            else if (input.Equals("fair_day") || input.Equals("fair_night"))
+            {
+                temp = "fair";
+            }
+            else if (input.Equals("partlycloudy_day") || input.Equals("partlycloudy_night"))
+            {
+                temp = "partly";
+            }
+            else if (input.Equals("cloudy"))
+            {
+                temp = "cloudy";
+            }
+            else if (input.Equals("lightrain") || input.Equals("rain") || input.Equals("heavyrain") || input.Equals("lightrainshowers_day") || input.Equals("lightrainshowers_night") || input.Equals("rainshowers_night") || input.Equals("rainshowers_day") || input.Equals("heavyrainshowers_night") || input.Equals("heavyrainshowers_day"))
+            {
+                temp = "rain";
+            }
+            else if (input.Equals("fog"))
+            {
+                temp = "foggy";
+            }
+
+
+            return temp;
+        }
+
 
         private WeatherDetail[] CleanDataYR(RootobjectYR first)
         {
@@ -118,7 +195,9 @@ namespace WebApplication1.API
             {
                 DateTime timeTemp = first.properties.timeseries[i].time;
                 string temp = first.properties.timeseries[i].data.instant.details.air_temperature.ToString();
-                
+                string tempCoverage = first.properties.timeseries[i].data.next_1_hours.summary.symbol_code.ToString();
+                tempCoverage = ChangeValueYR(tempCoverage);
+
 
                 temp = temp.Replace(",", ".");
                 Decimal tempLon = Decimal.Parse(temp, CultureInfo.InvariantCulture);
@@ -129,6 +208,7 @@ namespace WebApplication1.API
                 data[i] = new WeatherDetail
                 {
                     temperature = temp.Replace(",", "."),
+                    coverage = tempCoverage ,
                     time = timeTemp,
                     hour = timeTemp.ToString("HH:mm"),
                 };

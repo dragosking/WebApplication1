@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
+import { Latest } from './Latest';
 
 export class Home extends Component {
   static displayName = Home.name;
 
   render () {
     return (
-      <div>
+        <div>
+            <Latest/>
         <h1>Hello, world!</h1>
         <p>Welcome to your new single-page application, built with:</p>
         <ul>

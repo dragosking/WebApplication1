@@ -11,6 +11,9 @@ namespace WebApplication1.Model
         public string temperatureYR { get; set; }
         public string temperatureSMHI { get; set; }
 
+        public string coverageSMHI { get; set; }
+        public string coverageYR { get; set; }
+
         public string hour { get; set; }
 
     }

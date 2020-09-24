@@ -25,6 +25,7 @@ namespace WebApplication1.Controllers
 
 
 
+
         [HttpPost("test")]
         public Weather[] test([FromBody]PL pl)
         {
@@ -52,13 +53,13 @@ namespace WebApplication1.Controllers
         }
 
         [HttpPost("select")]
-        public Weather select([FromBody] Location pl)
+        public string select([FromBody] Location pl)
         {
            
-           Weather test = SearchOneCoordinates(pl);
+         
             string den = "a";
 
-           return test;
+           return den;
 
         }
 
@@ -104,6 +105,7 @@ namespace WebApplication1.Controllers
             string coordSMHI = "lon/" + loc.lon + "/lat/" + loc.lat + "/data.json";
             string coordYR = "compact?lat=" + loc.lat + "&lon=" + loc.lon;
             WeatherDetail[] vaderSHMI = parse.ParseUrlSMHI("https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/", coordSMHI);
+            string dennis = "ads";
             WeatherDetail[] vaderYR = parse.ParseUrlYR("https://api.met.no/weatherapi/locationforecast/2.0/", coordYR);
 
             if (vaderSHMI == null)
@@ -183,6 +185,8 @@ namespace WebApplication1.Controllers
                     hour = input[i].hour,
                     temperatureYR = input[i].temperature,
                     temperatureSMHI = input2[i].temperature,
+                    coverageSMHI = input2[i].coverage,
+                    coverageYR=input[i].coverage,
                 };
 
                 f = f + 1;

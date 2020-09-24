@@ -19,9 +19,7 @@ export class Post extends Component {
             expand:"iconExpand"
         };
 
-    
-
-        
+        this.runApi();
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -35,9 +33,21 @@ export class Post extends Component {
                 days: this.props.location.state.daysProps,
             })
         }
-
-     
     }
+
+    runApi() {
+        fetch('api/Index/latest',
+            {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    place: this.state.place,
+                    detailSMHI: this.state.smhi,
+     
+                })
+            });
+    }
+
 
     hide = (e) => {
         /*if (this.state.hide == "noshow") {
@@ -106,8 +116,18 @@ export class Post extends Component {
                             <table className={"firstExpand"}>
                                         <tr >
                                             <td className='first'>{SubTag.hour}</td>
-                                            <td className='second'><b>{SubTag.temperatureYR}</b></td>
-                                            <td className='third'><b>{SubTag.temperatureSMHI}</b></td>
+                                            
+                                            <td className='second'><b>{SubTag.temperatureYR}</b>
+                                                <div className="firstCoverage">
+                                                    <div className={SubTag.coverageYR}></div>
+                                                </div>
+                                            </td>
+                                            <td className='third'><b>{SubTag.temperatureSMHI}</b>
+                                                <div className="secondCoverage">
+                                                    <div className={SubTag.coverageSMHI}></div>
+                                                </div>
+                                            </td>
+                                         
                                             <td className='fourth'>{SubTag.hour}</td>
                                         </tr>
                                     </table>
@@ -123,7 +143,7 @@ export class Post extends Component {
        
         return (
             <form>
-                {this.state.expand}
+          
                 <table className='test2'>
                     <tr>
                         <td className="firstColumn">
